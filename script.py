@@ -23,3 +23,23 @@ def neighbors(pattern, d):
 
 # Identifies all (k,d)-motifs that appear in a collection of DNA sequences
 def motif_enumeration(dna, k, d):
+    patterns = set()
+    for i in range(0, len(dna[0]) - k + 1):
+        neighborhood = neighbors(dna[0][i:i + k], d)
+        for neighbor in neighborhood:
+            count = 0
+            for sequence in dna:
+                for j in range(0, len(sequence) - k + 1):
+                    if hamming_dist(neighbor, sequence[j: j + k]) <= d:
+                        count += 1
+                        break
+            if count == len(dna):
+                patterns.add(neighbor)
+    return patterns
+
+
+seqs = ['CGGGTAACCTCCCTGCTAAGGGTCC', 'ATTCCACATGCTCAGTAAGTAATAA', 'AGTCAGACGGCTCAGAGCGTTTCAA', 'CTAAGCAGAGAAATGTCGGGTGGAC', 'TAATGGTTATCTAAGTCTGAGTGGG', 'TCTTTTTACGCTCAGGTCACTTTTC']
+
+print(*motif_enumeration(seqs, 5, 1))
+
+
