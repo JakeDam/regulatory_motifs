@@ -1,3 +1,5 @@
+import math
+
 # Calculates hamming distance between two nucleotide sequences 
 def hamming_dist(seqA, seqB):
     h_dist = 0 
@@ -37,9 +39,26 @@ def motif_enumeration(dna, k, d):
                 patterns.add(neighbor)
     return patterns
 
+# Calculates the entropy of a motif matrix
+def entropy(matrix):
+    column_entropies = []
+    for i in len(matrix[0]):
+        column = {}
+        for sequence in matrix:
+            if sequence[i] not in column:
+                column[sequence[i]] = 1
+            else:
+                column[sequence[i]] += 1
+        col_values = []
+        for value in column:
+            col_values.append(value / len(matrix))
+        
+        
 
-seqs = ['CGGGTAACCTCCCTGCTAAGGGTCC', 'ATTCCACATGCTCAGTAAGTAATAA', 'AGTCAGACGGCTCAGAGCGTTTCAA', 'CTAAGCAGAGAAATGTCGGGTGGAC', 'TAATGGTTATCTAAGTCTGAGTGGG', 'TCTTTTTACGCTCAGGTCACTTTTC']
+        
 
-print(*motif_enumeration(seqs, 5, 1))
+
+        
+
 
 
