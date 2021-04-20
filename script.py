@@ -39,19 +39,28 @@ def motif_enumeration(dna, k, d):
                 patterns.add(neighbor)
     return patterns
 
+
 # Calculates the entropy of a motif matrix
 def entropy(matrix):
     column_entropies = []
-    for i in len(matrix[0]):
+    for i in range(0, len(matrix[0])):
         column = {}
+        entropy = 0
         for sequence in matrix:
             if sequence[i] not in column:
                 column[sequence[i]] = 1
             else:
                 column[sequence[i]] += 1
-        col_values = []
-        for value in column:
-            col_values.append(value / len(matrix))
+        for value in column.values():
+            if value > 0:
+                value = value / len(matrix)
+                value = value * math.log2(value)
+                entropy += value
+        entropy *= -1
+        column_entropies.append(entropy)
+    return sum(column_entropies)
+    
+        
         
         
 
