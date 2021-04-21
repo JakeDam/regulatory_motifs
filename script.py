@@ -60,6 +60,8 @@ def entropy(matrix):
         column_entropies.append(entropy)
     return sum(column_entropies)
     
+
+def median_string(k, matrix):
         
         
         
