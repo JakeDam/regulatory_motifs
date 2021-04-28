@@ -83,12 +83,26 @@ def median_string(k, dna):
         if distance > pattern_sequence_dist(i, dna):
             distance = pattern_sequence_dist(i, dna)
             median = i
-    return median
+    return media
 
-seqs = 'TATACTTCTCGATGGGAGCACGATTGCTATGGCCTCTAGAGT TTCGATGGGACCAGAACATAGGTATTTAATAATCCTTGGGAA TCCTAGACATTGTGGGAGACTCAGATTCAATATAGTGCAGCC ATTTGAATGCATTGGGAGTGTACTGCCGTCAGAAGTATCGTT CTTACCTACGCTCGGTTCGGGGCGATTGCTTGGGAGAGATAC TCCGCACTCAGCTGGGAGCCTCACGAGGAACGTCTATTTCTT CGCGGTACGCAACAAAATCCATCCACTGGGGCTGACTGGGAA CGTAGATGGAGCTGGGACAGACCTGGCCCACGTCATCCAGCC CCGAATCCCACAGTGGAAGCCACGGACACTTGGGAACAAAGA TTGCGGGAAGGAGCCGCATGGGAGCAACGGCGCATCGCCTAC'
-seqs = seqs.split(' ')
+# Computes the probablity of a given k-mer from a profile matrix of k-mers
+def probability(text, matrix):
+    prob = 1
+    for i in range(0, len(text)):
+        if text[i] == 'A':
+            prob *= matrix[0][i]
+        elif text[i] == 'C':
+            prob *= matrix[1][i]
+        elif text[i] == 'G':
+            prob *= matrix[2][i]
+        else:
+            prop *= matrix[3][i]
+    return prob
 
-print(median_string(6, seqs))
+# Determines the profile most probable k-mer from a given DNA sequence and profile matrix 
+def prof_most_prob(text, k, prof):
+    for i in range(0, len(text) - k):
+        k_mer = 
 
         
         
