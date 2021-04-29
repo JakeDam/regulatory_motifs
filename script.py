@@ -83,26 +83,44 @@ def median_string(k, dna):
         if distance > pattern_sequence_dist(i, dna):
             distance = pattern_sequence_dist(i, dna)
             median = i
-    return media
+    return median
 
 # Computes the probablity of a given k-mer from a profile matrix of k-mers
 def probability(text, matrix):
     prob = 1
     for i in range(0, len(text)):
         if text[i] == 'A':
-            prob *= matrix[0][i]
+            prob *= matrix['A'][i]
         elif text[i] == 'C':
-            prob *= matrix[1][i]
+            prob *= matrix['C'][i]
         elif text[i] == 'G':
-            prob *= matrix[2][i]
+            prob *= matrix['G'][i]
         else:
-            prop *= matrix[3][i]
+            prob *= matrix['T'][i]
     return prob
 
 # Determines the profile most probable k-mer from a given DNA sequence and profile matrix 
 def prof_most_prob(text, k, prof):
-    for i in range(0, len(text) - k):
-        k_mer = 
+    most_prob = 0
+    most_prob_kmer = ''
+    for i in range(0, len(text) - k + 1):
+        k_mer = text[i:i + k]
+        prob = probability(k_mer, prof)
+        if prob > most_prob:
+            most_prob = prob
+            most_prob_kmer = k_mer
+    return most_prob_kmer
+
+# Returns a collection of k-mers representing the best motifs (most representing of each other) from a collection of DNA sequences
+def greedy_motif_search(dna, k, t):
+    best_motifs = []
+    for sequence in dna:
+        best_motifs.append(sequence[0:k])
+    for i in range(0, len(dna[0]) - k + 1):
+        motif = []
+        motif.append(dna[0][i:i + k])
+
+
 
         
         
