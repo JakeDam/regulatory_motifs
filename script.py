@@ -111,6 +111,63 @@ def prof_most_prob(text, k, prof):
             most_prob_kmer = k_mer
     return most_prob_kmer
 
+# Generates a profile matrix from a group of motifs
+def generate_matrix(motifs):
+    Profile = {}
+    A, C, G, T = [], [], [], []
+    for j in range(len(motifs[0])):
+        count_A, count_C, count_G, count_T = 0, 0, 0, 0
+        for motif in motifs:
+            if motif[j] == "A":
+                count_A += 1
+            elif motif[j] == "C":
+                count_C += 1
+            elif motif[j] == "G":
+                count_G += 1
+            elif motif[j] == "T":
+                count_T += 1
+        A.append(count_A)
+        C.append(count_C)
+        G.append(count_G)
+        T.append(count_T)
+    Profile["A"] = A
+    Profile["C"] = C
+    Profile["G"] = G
+    Profile["T"] = T
+    return Profile
+
+# Determines the consensus string from a group of motifs 
+def consensus_string(motifs):
+    consensus = ""
+    for i in range(len(motifs[0])):
+        count_A, count_C, count_G, count_T = 0, 0, 0, 0
+        for motif in motifs:
+            if motif[i] == "A":
+                count_A += 1
+            elif motif[i] == "C":
+                count_C += 1
+            elif motif[i] == "G":
+                count_G += 1
+            elif motif[i] == "T":
+                count_T += 1
+        if count_A >= max(count_C, count_G, count_T):
+            consensus += "A"
+        elif count_C >= max(count_A, count_G, count_T):
+            consensus += "C"
+        elif count_G >= max(count_C, count_A, count_T):
+            consensus += "G"
+        elif countT >= max(count_C, count_G, count_A):
+            consensus += "T"
+    return consensus
+
+# Scores a motif based on closeness to consensus string of motif matrix
+def score(motifs)
+  consensus = consensus_string(motifs)
+  score = 0
+  for motif in motifs:
+    score += hamming_dist(consensus, motif)
+  return score
+
 # Returns a collection of k-mers representing the best motifs (most representing of each other) from a collection of DNA sequences
 def greedy_motif_search(dna, k, t):
     best_motifs = []
