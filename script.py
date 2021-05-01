@@ -161,7 +161,7 @@ def consensus_string(motifs):
     return consensus
 
 # Scores a motif based on closeness to consensus string of motif matrix
-def score(motifs)
+def score(motifs):
   consensus = consensus_string(motifs)
   score = 0
   for motif in motifs:
@@ -173,9 +173,21 @@ def greedy_motif_search(dna, k, t):
     best_motifs = []
     for sequence in dna:
         best_motifs.append(sequence[0:k])
+    base_motif = dna[0]
+    other_motifs = dna[1:]
     for i in range(0, len(dna[0]) - k + 1):
-        motif = []
-        motif.append(dna[0][i:i + k])
+        motifs = []
+        motifs.append(dna[0][i:i + k])
+        for motif in other_motifs:
+            profile_matrix = generate_matrix(motifs)
+            next_motif = prof_most_prob(motif, k, profile_matrix)
+            motifs += next_motif
+    if score(motifs) < score(best_motifs):
+        best_motifs = motifs
+    return best_motifs
+
+strands = ['GGCGTTCAGGCA', 'AAGAATCAGTCA', 'CAAGGAGTTCGC', 'CACGTCAATCAC', 'CAATAATATTCG']
+print(greedy_motif_search(strands, 3, 5))
 
 
 
