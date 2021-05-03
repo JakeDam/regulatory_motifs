@@ -113,7 +113,7 @@ def prof_most_prob(text, k, prof):
 
 # Generates a profile matrix from a group of motifs
 def generate_matrix(motifs):
-    Profile = {}
+    profile = {}
     A, C, G, T = [], [], [], []
     for j in range(len(motifs[0])):
         count_A, count_C, count_G, count_T = 0, 0, 0, 0
@@ -130,11 +130,11 @@ def generate_matrix(motifs):
         C.append(count_C)
         G.append(count_G)
         T.append(count_T)
-    Profile["A"] = A
-    Profile["C"] = C
-    Profile["G"] = G
-    Profile["T"] = T
-    return Profile
+    profile["A"] = A
+    profile["C"] = C
+    profile["G"] = G
+    profile["T"] = T
+    return profile
 
 # Determines the consensus string from a group of motifs 
 def consensus_string(motifs):
@@ -180,19 +180,20 @@ def greedy_motif_search(dna, k, t):
         motifs.append(dna[0][i:i + k])
         for motif in other_motifs:
             profile_matrix = generate_matrix(motifs)
+            print(profile_matrix)
             next_motif = prof_most_prob(motif, k, profile_matrix)
-            motifs += next_motif
+            motifs.append(next_motif)
     if score(motifs) < score(best_motifs):
         best_motifs = motifs
     return best_motifs
 
-strands = ['GGCGTTCAGGCA', 'AAGAATCAGTCA', 'CAAGGAGTTCGC', 'CACGTCAATCAC', 'CAATAATATTCG']
-print(greedy_motif_search(strands, 3, 5))
+#strands = ['GGCGTTCAGGCA', 'AAGAATCAGTCA', 'CAAGGAGTTCGC', 'CACGTCAATCAC', 'CAATAATATTCG']
+#print(greedy_motif_search(strands, 3, 5))
 
+profile = {'A': [0.0, 0.0, 0.0], 'C': [0.0, 0.0, 1.0], 'T': [0.0, 0.0, 0.0], 'G': [1.0, 1.0, 0.0]}
+text = 'AAGAATCAGTCA'        
 
-
-        
-        
+print(prof_most_prob(text, 3, profile))
 
         
 
