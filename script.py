@@ -109,7 +109,10 @@ def prof_most_prob(text, k, prof):
         if prob > most_prob:
             most_prob = prob
             most_prob_kmer = k_mer
-    return most_prob_kmer
+    if most_prob_kmer == '':
+        return text[0:k]
+    else:
+        return most_prob_kmer
 
 # Generates a profile matrix from a group of motifs
 def generate_matrix(motifs):
@@ -156,7 +159,7 @@ def consensus_string(motifs):
             consensus += "C"
         elif count_G >= max(count_C, count_A, count_T):
             consensus += "G"
-        elif countT >= max(count_C, count_G, count_A):
+        elif count_T >= max(count_C, count_G, count_A):
             consensus += "T"
     return consensus
 
@@ -166,34 +169,32 @@ def score(motifs):
   score = 0
   for motif in motifs:
     score += hamming_dist(consensus, motif)
+    print(score)
   return score
 
 # Returns a collection of k-mers representing the best motifs (most representing of each other) from a collection of DNA sequences
 def greedy_motif_search(dna, k, t):
     best_motifs = []
+    best_score = math.inf
     for sequence in dna:
-        best_motifs.append(sequence[0:k])
+        best_motifs.append(sequence[:k])
     base_motif = dna[0]
-    other_motifs = dna[1:]
     for i in range(0, len(dna[0]) - k + 1):
         motifs = []
         motifs.append(dna[0][i:i + k])
-        for motif in other_motifs:
+        for j in range(1, len(dna)):
             profile_matrix = generate_matrix(motifs)
-            print(profile_matrix)
-            next_motif = prof_most_prob(motif, k, profile_matrix)
+            next_motif = prof_most_prob(dna[j], k, profile_matrix)
             motifs.append(next_motif)
-    if score(motifs) < score(best_motifs):
+    if score(motifs) < best_score:
+        best_score = score(motifs)
         best_motifs = motifs
     return best_motifs
 
-#strands = ['GGCGTTCAGGCA', 'AAGAATCAGTCA', 'CAAGGAGTTCGC', 'CACGTCAATCAC', 'CAATAATATTCG']
-#print(greedy_motif_search(strands, 3, 5))
+strands = ['GGCGTTCAGGCA', 'AAGAATCAGTCA', 'CAAGGAGTTCGC', 'CACGTCAATCAC', 'CAATAATATTCG']
+print(greedy_motif_search(strands, 3, 5))
 
-profile = {'A': [0.0, 0.0, 0.0], 'C': [0.0, 0.0, 1.0], 'T': [0.0, 0.0, 0.0], 'G': [1.0, 1.0, 0.0]}
-text = 'AAGAATCAGTCA'        
 
-print(prof_most_prob(text, 3, profile))
 
         
 
