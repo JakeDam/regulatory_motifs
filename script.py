@@ -119,7 +119,7 @@ def generate_matrix(motifs):
     profile = {}
     A, C, G, T = [], [], [], []
     for j in range(len(motifs[0])):
-        count_A, count_C, count_G, count_T = 0, 0, 0, 0
+        count_A, count_C, count_G, count_T = 1, 1, 1, 1
         for motif in motifs:
             if motif[j] == "A":
                 count_A += 1
@@ -190,15 +190,7 @@ def greedy_motif_search(dna, k, t):
             best_motifs = motifs
     return best_motifs
 
-strands = open('dataset_159_5.txt')
-strands = list(strands)
-for strand in greedy_motif_search(strands, 12, 25):
-    print(strand)
-    print('\n')
-
-
-
-        
+      
 
 
         
