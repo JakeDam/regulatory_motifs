@@ -190,10 +190,5 @@ def greedy_motif_search(dna, k, t):
             best_motifs = motifs
     return best_motifs
 
-      
-
-
-        
-
 
 
